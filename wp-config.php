@@ -17,6 +17,10 @@
  *
  * @package WordPress
  */
+ 
+/**JWT configuration*/
+define('JWT_AUTH_SECRET_KEY', 'K1y2k:+p}qe-)WPCHUx}%V:@SHf#dKn|@|oeA1kc!L(7&usN@pk%3|+=vX={) y*');
+define('JWT_AUTH_CORS_ENABLE', true);
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
