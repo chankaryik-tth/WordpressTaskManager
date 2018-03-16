@@ -1,5 +1,6 @@
 <?php 
-
+//url: local.apitestingdy1111.com/api.php
+//ip_url: 192.168.1.176/tm-rest-api/api.php
 class Api{
 	
 	function __construct(){
@@ -12,6 +13,7 @@ class Api{
 	private function clean_text($text){
 		$text = str_replace('+', '%2B', $text);
 		$text = str_replace("'", '%27', $text);
+		$text = str_replace('!', '%21', $text);
 		$text = str_replace(' ', '+', $text);
 		return $text;
 	}
@@ -284,7 +286,7 @@ class Api{
 		if ($err) {
 		  echo "cURL Error #:" . $err;
 		}else{
-			return $response;
+			echo $response;
 		}
 	}
 
@@ -323,7 +325,7 @@ class Api{
 				  return $response;
 				}
 			}elseif ($key == 'description' || $key == 'deadline') {
-				return put_acf_field($id, $key, $value);
+				return $this->put_acf_field($id, $key, $value);
 			}else{
 				echo "ERROR: This key".$key." is undefined";
 			}
@@ -333,14 +335,19 @@ class Api{
 	}
 
 	//DELETE FUNCTION
-	function delete_post($id){
+	function delete_post($id,$forceDelete){
 		if($this->num_only($id)){
+			$delete = '';
 			$id = $this->clean_text($id);
+
+			if($forceDelete){//permanatly delete
+				$delete = '?force=true'	;
+			}
 
 			$curl = curl_init();
 
 			curl_setopt_array($curl, array(
-			  CURLOPT_URL => "http://local.taskmanager.com/wp-json/wp/v2/post-tasks/".$id,
+			  CURLOPT_URL => "http://local.taskmanager.com/wp-json/wp/v2/post-tasks/".$id.$delete,
 			  CURLOPT_RETURNTRANSFER => true,
 			  CURLOPT_ENCODING => "",
 			  CURLOPT_MAXREDIRS => 10,
